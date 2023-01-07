@@ -4,6 +4,20 @@
 
 using namespace std;
 
+template <typename T>
+struct Sum{
+    T value = 0;
+    void operator() (T par){ value += par; }
+};
+
+void testLambda() {
+    vector<int> a {1,2,3,4,5,6,7,9,11,16,19};
+    Sum<int> sum;
+// for_each copies sum: we need to copy the result back
+    sum = for_each(a.begin(), a.end(), sum);
+    cout << "testLambda: result: " << sum.value << endl; // 83
+}
+
 int main() {
     using views::filter,
             views::transform,
@@ -16,5 +30,9 @@ int main() {
     for (auto v: results) {
         cout << v << " ";   // Output: 3 5 7
     }
+    cout << endl;
+
+    testLambda();
+
     return 0;
 }
